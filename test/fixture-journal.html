@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="et">
+<head><meta charset="utf-8"><title>Päevik – 7.b matemaatika</title>
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 0; padding: 24px 28px; color: #1f2328; background: #f4f6f9; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .demo { color: #8a6d00; font-size: 12px; margin: 0 0 16px; }
+  table { border-collapse: collapse; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  th, td { border: 1px solid #dde3ea !important; padding: 7px 10px; text-align: left; }
+  th { background: #eef2f7; font-weight: 600; font-size: 13px; }
+  td a { color: #0b5cad; text-decoration: none; }
+  select { font: inherit; padding: 3px; min-width: 120px; border: 1px solid #c8d1dc; border-radius: 4px; background: #fff; }
+  button { margin-top: 16px; font: inherit; padding: 8px 18px; background: #0b6bcb; color: #fff; border: 0; border-radius: 6px; }
+  #status { margin-left: 10px; color: #1a7f37; }
+</style>
+</head>
+<body>
+  <h1>7.b matemaatika – päevik</h1>
+  <p class="demo">Näidisandmed (demo), mitte päris eKool</p>
+  <form id="journal">
+    <table id="grid" border="1">
+      <thead>
+        <tr><th rowspan="2">Õpilane</th><th colspan="2">03.11</th><th>04.11</th><th>05.11</th></tr>
+        <tr><th>1. tund</th><th>2. tund</th><th>3. tund</th><th>1. tund</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <button type="button" id="save">Salvesta</button>
+    <span id="status"></span>
+  </form>
+  <script>
+    const pupils = ['Tamm, Mari', 'Kask, Jüri', 'Mets, Kati', 'Tammik, Jaan', 'Õunapuu, Liisa'];
+    const opts = '<option value=""></option><option value="P">P - puudus</option><option value="H">H - hilines</option><option value="V">V - vabandatud</option>';
+    const tbody = document.getElementById('rows');
+    window.changeLog = [];
+    for (const p of pupils) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><a href="#">${p}</a></td>` + [0,1,2,3].map(i => `<td><select name="${p}-${i}">${opts}</select></td>`).join('');
+      tbody.append(tr);
+    }
+    // Pre-existing mark: Jüri late in lesson 2 on 03.11
+    document.querySelector('select[name="Kask, Jüri-1"]').value = 'H';
+    // Framework-style change tracking
+    document.addEventListener('change', e => window.changeLog.push(e.target.name + '=' + e.target.value));
+    document.getElementById('save').addEventListener('click', () => {
+      document.getElementById('status').textContent = 'Salvestatud';
+    });
+  </script>
+</body>
+</html>

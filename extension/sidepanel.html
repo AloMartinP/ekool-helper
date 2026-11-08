@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>eKool Helper</title>
+  <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+  <header>
+    <strong>eKool Helper</strong>
+    <span id="bridge" class="pill" title="MCP sild">MCP: …</span>
+  </header>
+
+  <nav>
+    <button data-tab="chat" class="active">AI abiline</button>
+    <button data-tab="quick">Puudujad</button>
+    <button data-tab="settings">Seaded</button>
+  </nav>
+
+  <section id="tab-chat" class="tab active">
+    <div id="messages">
+      <div class="msg hint">
+        Kirjuta, mida eKoolis teha vaja on, näiteks:<br />
+        <em>„Märgi Mari Tamm ja Jüri Kask kõigis tänastes tundides puudujaks."</em><br />
+        Abiline loeb lehte, näitab enne muutmist eelvaadet ja <b>ei salvesta</b> ilma sinu loata.
+      </div>
+    </div>
+    <form id="chat-form">
+      <textarea id="chat-input" rows="3" placeholder="Mida teha?"></textarea>
+      <div class="row">
+        <button type="button" id="clear" class="ghost">Uus vestlus</button>
+        <button type="button" id="stop" class="ghost" hidden>Peata</button>
+        <button type="submit" id="send">Saada</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="tab-quick" class="tab">
+    <p class="small">Täidab avatud päeviku lehel kõigi nende õpilaste kõik tunnid (või ainult valitud veerud). Ilma AI-ta. Muudab ainult vormi; salvestamine jääb sinu teha.</p>
+    <label>Õpilased (üks rea kohta või komadega)
+      <textarea id="q-students" rows="6" placeholder="Mari Tamm&#10;Jüri Kask"></textarea>
+    </label>
+    <label>Märge
+      <input id="q-mark" value="P" />
+    </label>
+    <label>Ainult veerud, mille päises on (valikuline, komadega)
+      <input id="q-columns" placeholder="nt 04.11, 2. tund" />
+    </label>
+    <label class="check"><input type="checkbox" id="q-overwrite" /> Kirjuta olemasolevad märked üle</label>
+    <div class="row">
+      <button id="q-preview" class="ghost">Eelvaade</button>
+      <button id="q-apply">Täida</button>
+    </div>
+    <div id="q-result"></div>
+  </section>
+
+  <section id="tab-settings" class="tab">
+    <h3>AI teenus</h3>
+    <label>Teenusepakkuja
+      <select id="s-provider">
+        <option value="openai">OpenAI-ühilduv (OpenAI, OpenRouter, Ollama, LM Studio…)</option>
+        <option value="anthropic">Anthropic (Claude)</option>
+      </select>
+    </label>
+    <label>API aadress <input id="s-baseUrl" /></label>
+    <label>Mudel <input id="s-model" placeholder="nt gpt-5-mini, claude-sonnet-5-5, qwen3" /></label>
+    <label>API võti <input id="s-apiKey" type="password" autocomplete="off" placeholder="Ollama puhul tühi" /></label>
+    <label class="check"><input type="checkbox" id="s-confirmWrites" /> Küsi enne iga muudatust luba</label>
+
+    <h3>MCP sild</h3>
+    <p class="small">Käivita <code>npm run mcp</code> (või lisa server oma AI kliendi seadetesse) ja kleebi siia selle näidatud võti.</p>
+    <label class="check"><input type="checkbox" id="s-bridgeEnabled" /> Luba MCP sild</label>
+    <label>Port <input id="s-bridgePort" type="number" /></label>
+    <label>Võti (token) <input id="s-bridgeToken" type="password" autocomplete="off" /></label>
+    <div class="row"><button id="s-save">Salvesta seaded</button></div>
+    <p id="s-msg" class="small"></p>
+  </section>
+
+  <script src="sidepanel.js" type="module"></script>
+</body>
+</html>

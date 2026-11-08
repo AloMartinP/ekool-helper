@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "eKool Helper (mitteametlik)",
+  "short_name": "eKool Helper",
+  "version": "0.1.0",
+  "description": "Unofficial AI helper for teachers: fills in eKool attendance for many pupils and lessons at once. Not affiliated with eKool.",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "permissions": ["storage", "tabs", "scripting", "sidePanel", "alarms"],
+  "host_permissions": [
+    "https://*.ekool.eu/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "https://openrouter.ai/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "action": { "default_title": "eKool Helper", "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png" } },
+  "content_scripts": [
+    {
+      "matches": ["https://*.ekool.eu/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

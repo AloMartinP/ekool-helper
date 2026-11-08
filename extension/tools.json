@@ -1,0 +1,128 @@
+[
+  {
+    "name": "list_tabs",
+    "description": "List open eKool browser tabs (id, title, url, active). Use the id as tabId in other tools when several eKool tabs are open.",
+    "mutating": false,
+    "inputSchema": { "type": "object", "properties": {}, "additionalProperties": false }
+  },
+  {
+    "name": "navigate",
+    "description": "Open a URL in the eKool tab (only ekool.eu addresses are allowed) and wait for it to load. Opens a new tab if no eKool tab exists.",
+    "mutating": true,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "description": "Full https URL on ekool.eu" },
+        "tabId": { "type": "integer" }
+      },
+      "required": ["url"],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "snapshot",
+    "description": "Read the current eKool page: URL, title, visible text, the tables on the page (with refs) and the interactive elements (buttons, links, inputs, selects) each with a ref. Always call this first and again after the page changes; refs from older snapshots may stop working.",
+    "mutating": false,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "max_elements": { "type": "integer", "default": 250, "description": "Cap on interactive elements returned" },
+        "include_text": { "type": "boolean", "default": true },
+        "tabId": { "type": "integer" }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "read_table",
+    "description": "Read a table or grid on the page (for example the class journal) as header labels plus rows. Editable cells come with a ref, their current value and, for dropdowns, the allowed options. Without table_ref, reads every visible table.",
+    "mutating": false,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "table_ref": { "type": "string" },
+        "max_rows": { "type": "integer", "default": 80 },
+        "tabId": { "type": "integer" }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "bulk_set_attendance",
+    "description": "Fill the same mark (for example an absence code) for many pupils across many lessons in one go. Finds each pupil's row by name (accent- and order-insensitive, so 'Kask Jüri' matches 'Jüri Kask') and sets every editable lesson cell in that row, optionally only the columns whose header contains one of `columns` (for example a date like '04.11' or a lesson number). Cells that already hold a different value are left alone unless overwrite is true. Use dry_run first to preview. This changes the form on screen only; it does NOT save. Reports pupils not found or matched ambiguously.",
+    "mutating": true,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "students": { "type": "array", "items": { "type": "string" }, "minItems": 1, "description": "Pupil names" },
+        "mark": { "type": "string", "description": "Value to put in each cell, matched against dropdown option values/labels (for example 'P' or 'puudus')" },
+        "columns": { "type": "array", "items": { "type": "string" }, "description": "Only fill columns whose header contains one of these strings. Omit to fill all editable columns." },
+        "table_ref": { "type": "string", "description": "Limit to one table (ref from snapshot/read_table)" },
+        "overwrite": { "type": "boolean", "default": false },
+        "dry_run": { "type": "boolean", "default": false, "description": "Only report what would change" },
+        "tabId": { "type": "integer" }
+      },
+      "required": ["students", "mark"],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "click",
+    "description": "Click an element by ref (preferred) or by its visible text. Do not click save/submit/send/delete buttons unless the teacher asked for that.",
+    "mutating": true,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ref": { "type": "string" },
+        "text": { "type": "string", "description": "Visible label to click if no ref" },
+        "tabId": { "type": "integer" }
+      },
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "fill",
+    "description": "Type a value into a text input, textarea or editable field (replaces the current content).",
+    "mutating": true,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ref": { "type": "string" },
+        "value": { "type": "string" },
+        "tabId": { "type": "integer" }
+      },
+      "required": ["ref", "value"],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "select_option",
+    "description": "Choose an option in a dropdown by option value or visible label.",
+    "mutating": true,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "ref": { "type": "string" },
+        "value": { "type": "string" },
+        "tabId": { "type": "integer" }
+      },
+      "required": ["ref", "value"],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "wait_for",
+    "description": "Wait until some text appears on the page (for example after saving or opening a dialog).",
+    "mutating": false,
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "timeout_ms": { "type": "integer", "default": 10000 },
+        "tabId": { "type": "integer" }
+      },
+      "required": ["text"],
+      "additionalProperties": false
+    }
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "name": "ekool-helper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Chrome extension + MCP server that lets AI fill in eKool for teachers",
+  "bin": {
+    "ekool-helper-mcp": "mcp-server/index.js"
+  },
+  "scripts": {
+    "mcp": "node mcp-server/index.js",
+    "token": "node mcp-server/index.js --print-token",
+    "test": "node test/e2e.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "ws": "^8.22.1"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.65.0"
+  }
+}

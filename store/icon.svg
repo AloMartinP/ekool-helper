@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1f7ae0"/>
+      <stop offset="1" stop-color="#0b4fa3"/>
+    </linearGradient>
+  </defs>
+  <!-- 96x96 artwork with 16px transparent padding (Chrome Web Store icon guideline) -->
+  <rect x="16" y="16" width="96" height="96" rx="22" fill="url(#g)"/>
+  <!-- journal grid -->
+  <g fill="#ffffff" opacity="0.28">
+    <rect x="30" y="36" width="56" height="6" rx="3"/>
+    <rect x="30" y="50" width="56" height="6" rx="3"/>
+    <rect x="30" y="64" width="40" height="6" rx="3"/>
+    <rect x="30" y="78" width="30" height="6" rx="3"/>
+  </g>
+  <!-- check mark -->
+  <path d="M58 82 l11 11 l24 -28" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- AI sparkle -->
+  <path d="M88 26 l3.5 8.5 l8.5 3.5 l-8.5 3.5 l-3.5 8.5 l-3.5 -8.5 l-8.5 -3.5 l8.5 -3.5 z" fill="#ffd166"/>
+</svg>
